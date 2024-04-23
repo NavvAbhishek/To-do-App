@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         'pink': '#F72585',
-        'purple': '#7209B7',
+        'purple': '#800080',
         'blue': '#3A0CA3',
       },
       backgroundImage: {

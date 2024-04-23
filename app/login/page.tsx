@@ -1,7 +1,9 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const Login = () => {
+  const [error, setError] = useState("");
   return (
     <div className="flex justify-center items-center h-screen bg-blue">
       <div className="login-form flex flex-col items-center bg-white p-10 rounded-lg shadow-md">
@@ -21,9 +23,11 @@ const Login = () => {
             Login
           </button>
           <div>
-            <p className="mt-3 text-sm font-semibold text-red-600">
-              Error message
-            </p>
+            {error ? (
+              <p className="text-sm font-semibold text-red-600">{error}</p>
+            ) : (
+              <p className="text-sm invisible">a</p>
+            )}
             <div className="text-center">
               <p className="mt-4 text-sm">
                 Don&apos;t have an account?{" "}
