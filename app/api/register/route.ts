@@ -8,10 +8,7 @@ connect()
 export async function POST(req: NextRequest) {
 
     try {
-        const { name, email, password } = await req.json()
-        console.log("name: ", name)
-        console.log("email: ", email)
-        console.log("password: ", password)
+        const { username, email, password } = await req.json()
         const userExist = await User.findOne({ email });
         if (userExist) {
             return NextResponse.json({
@@ -19,13 +16,13 @@ export async function POST(req: NextRequest) {
             }, { status: 400 })
         }
 
-        const salt = await bcryptjs.getSalt('10')
+        const salt = await bcryptjs.genSalt(10);
         const hashedPassword = await bcryptjs.hash(password, salt)
 
-        const savedUser = await new User({
-            name, email, password: hashedPassword
+        const newUser =  new User({
+           username, email, password: hashedPassword
         })
-
+        const savedUser = await newUser.save()
         return NextResponse.json({
             message: "User successfully registerd",
             success: true,

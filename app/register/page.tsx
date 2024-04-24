@@ -2,17 +2,20 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name || !email || !password) {
+    setLoading(true);
+    if (!username || !email || !password) {
       setError("Please fill all fields!");
       return;
     } else {
@@ -20,7 +23,7 @@ const Register = () => {
     }
     try {
       const res = await axios.post("api/register", {
-        name,
+        username,
         email,
         password,
       });
@@ -28,6 +31,11 @@ const Register = () => {
       router.push("/login");
     } catch (error) {
       console.error("Registration failed", error);
+    } finally {
+      setLoading(false);
+      setUsername("");
+      setEmail("");
+      setPassword("");
     }
   };
 
@@ -42,23 +50,26 @@ const Register = () => {
           <label className="font-semibold">Enter Name:</label>
           <input
             type="text"
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <label className="font-semibold">Enter Email:</label>
           <input
             type="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <label className="font-semibold">Enter password:</label>
           <input
             type="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <button className="w-80 mt-4 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">
-            Register
+            {loading ? "Processing..." : "Register"}
           </button>
           <div>
             {error ? (
