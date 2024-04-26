@@ -5,37 +5,37 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    if (!username || !email || !password) {
+    if (!user.name || !user.email || !user.password) {
       setError("Please fill all fields!");
       return;
     } else {
       setError("");
     }
     try {
-      const res = await axios.post("api/register", {
-        username,
-        email,
-        password,
-      });
+      const res = await axios.post("api/register", user);
       console.log("Registration successful", res.data);
       router.push("/login");
     } catch (error) {
       console.error("Registration failed", error);
     } finally {
       setLoading(false);
-      setUsername("");
-      setEmail("");
-      setPassword("");
+      setUser({
+        name: "",
+        email: "",
+        password: "",
+      });
     }
   };
 
@@ -50,22 +50,22 @@ const Register = () => {
           <label className="font-semibold">Enter Name:</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={user.name}
+            onChange={(e) => setUser({ ...user, name: e.target.value })}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <label className="font-semibold">Enter Email:</label>
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <label className="font-semibold">Enter password:</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <button className="w-80 mt-4 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">

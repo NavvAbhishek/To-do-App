@@ -8,7 +8,7 @@ connect()
 export async function POST(req: NextRequest) {
 
     try {
-        const { username, email, password } = await req.json()
+        const { name, email, password } = await req.json();
         const userExist = await User.findOne({ email });
         if (userExist) {
             return NextResponse.json({
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         const hashedPassword = await bcryptjs.hash(password, salt)
 
         const newUser =  new User({
-           username, email, password: hashedPassword
+           name, email, password: hashedPassword
         })
         const savedUser = await newUser.save()
         return NextResponse.json({

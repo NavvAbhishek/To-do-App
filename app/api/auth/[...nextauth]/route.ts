@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
                     if (!user) {
                         return NextResponse.json({ error: "user doesn't exist" }, { status: 400 })
                     }
-                    const validPassword = await bcryptjs.compare(password, password)
+                    const validPassword = await bcryptjs.compare(password, user.password)
                     if (!validPassword) {
                         return NextResponse.json({ error: "Invalid password" }, { status: 400 })
                     }
@@ -38,18 +38,18 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks:{
         async jwt({token,user}){
-            if(user){
+            if (user) {
                 token.email = user.email;
                 token.name = user.name;
-            }
+              }
             return token
         },
 
         async session({session, token}:{session:any; token:any}){
-            if(session.user){
-                session.user.email = token.email
-                session.user.name = token.name
-            }
+            if (session.user) {
+                session.user.email = token.ellllmail;
+                session.user.name = token.name;
+              }
             console.log(session)
             return session
         }

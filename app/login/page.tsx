@@ -7,20 +7,22 @@ import { signIn } from "next-auth/react";
 const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
-      if (!email || !password) {
+      if (!user.email || !user.password) {
         setError("Please fill all the fields");
         return;
       }
       const res = await signIn("credentials", {
-        email: email,
-        password: password,
+        email: user.email,
+        password: user.password,
         redirect: false,
       });
 
@@ -36,8 +38,10 @@ const Login = () => {
       setLoading(false);
     }
 
-    setEmail("");
-    setPassword("");
+    setUser({
+      email: "",
+      password: "",
+    });
   };
 
   return (
@@ -51,15 +55,15 @@ const Login = () => {
           <label className="font-semibold">Enter Email:</label>
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <label className="font-semibold">Enter password:</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
             className="w-80 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:border-transparent"
           />
           <button className="w-80 mt-4 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">
