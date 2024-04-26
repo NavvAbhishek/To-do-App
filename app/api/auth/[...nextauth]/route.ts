@@ -6,7 +6,6 @@ import bcryptjs from 'bcryptjs'
 import { NextResponse } from "next/server";
 
 export const authOptions: NextAuthOptions = {
-
     providers: [
         CredentialsProvider({
             name: 'Credentials',
@@ -60,4 +59,6 @@ export const authOptions: NextAuthOptions = {
         signIn:'/login'
     }
 }
-export default NextAuth(authOptions)
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
