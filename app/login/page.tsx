@@ -69,6 +69,9 @@ const Login = () => {
           <button className="w-80 mt-4 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">
             Login
           </button>
+          <button onClick={() => signIn("google")} type="button">
+            Login with Google
+          </button>
           <div>
             {error ? (
               <p className="text-sm font-semibold text-red-600">{error}</p>

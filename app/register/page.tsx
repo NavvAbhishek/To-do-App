@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -70,6 +71,11 @@ const Register = () => {
           />
           <button className="w-80 mt-4 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">
             {loading ? "Processing..." : "Register"}
+          </button>
+          <button 
+          onClick={()=>signIn('google')}
+          type="button">
+            Login with Google
           </button>
           <div>
             {error ? (
