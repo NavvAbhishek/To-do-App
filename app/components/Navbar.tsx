@@ -15,7 +15,7 @@ const navItems = [
 
 const Navbar = () => {
   useAOS();
-  const [mobileMenu, setMobileMenu] = useState(true);
+  const [mobileMenu, setMobileMenu] = useState(false);
   console.log(mobileMenu);
   return (
     <nav>
