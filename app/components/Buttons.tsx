@@ -7,20 +7,12 @@ interface btnProps {
   className?: string;
 }
 
-const LightBtn: React.FC<btnProps> = ({ name, href, className }) => {
+const Button: React.FC<btnProps> = ({ name, href, className }) => {
   return (
-    <button className={`text-blue font-semibold bg-pink py-3 px-4 rounded-lg ${className}`}>
+    <button className={`dark:text-black text-blue font-semibold bg-yellow dark:bg-pink py-3 px-4 rounded-lg ${className}`}>
        <Link href={href}>{name}</Link>
     </button>
   );
 };
 
-const DarkBtn: React.FC<btnProps> = ({ name, href, className }) => {
-  return (
-    <button className={`text-pink font-semibold bg-blue py-3 px-4 rounded-lg ${className}`}>
-      <Link href={href}>{name}</Link>
-    </button>
-  );
-};
-
-export { LightBtn, DarkBtn };
+export { Button };

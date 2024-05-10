@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./components/Provider";
+import { ThemeProviders } from "./providers";
 
 const poppins = Poppins({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -19,9 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-        <body className={poppins.className}>
-        <AuthProvider>{children}</AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={poppins.className}>
+        <ThemeProviders>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProviders>
       </body>
     </html>
   );

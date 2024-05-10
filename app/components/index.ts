@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import { LightBtn, DarkBtn } from "./Buttons";
+import { Button } from "./Buttons";
 import Hero from "./Hero";
 
-export { Navbar, LightBtn, DarkBtn, Hero }
+export { Navbar, Button, Hero }
