@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import logo from "@/public/logo_removebg.png";
 import Link from "next/link";
-import { LightBtn } from "./Buttons";
+import { LightBtn } from "./";
 import { RiMenu3Fill, RiCloseLargeFill } from "react-icons/ri";
 import useAOS from "@/utils/aosSetup";
 
