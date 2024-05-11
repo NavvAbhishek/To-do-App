@@ -3,14 +3,18 @@ import React from "react";
 
 interface btnProps {
   name: string;
-  href: string;
+  href?: string;
   className?: string;
+  onClick?: () => void;
 }
 
-const Button: React.FC<btnProps> = ({ name, href, className }) => {
+const Button: React.FC<btnProps> = ({ name, href, className, onClick }) => {
   return (
-    <button className={`dark:text-black text-blue font-semibold bg-yellow dark:bg-pink py-3 px-4 rounded-lg ${className}`}>
-       <Link href={href}>{name}</Link>
+    <button
+      onClick={onClick}
+      className={`dark:text-black text-blue font-semibold text-sm bg-yellow dark:bg-pink py-3 px-4 rounded-lg ${className}`}
+    >
+      {href ? <Link href={href}>{name}</Link> : name}
     </button>
   );
 };

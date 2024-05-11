@@ -1,19 +1,21 @@
 import type { Config } from "tailwindcss";
+const flowbite = require("flowbite-react/tailwind");
 
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    flowbite.content(),
   ],
-  darkMode: 'class', 
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         'pink': '#F72585',
         'purple': '#800080',
         'blue': '#3A0CA3',
-        'yellow':'#FFC000'
+        'yellow': '#FFC000'
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -22,6 +24,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbite.plugin()],
 };
 export default config;

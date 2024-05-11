@@ -1,12 +1,19 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
-import { Navbar } from "../components";
+import React, { useState } from "react";
+import { Button, DatePickerComp, Navbar } from "../components";
+
 
 const Dashboard = () => {
+  const [task, setTask] = useState("");
   const { data: session }: any = useSession();
-  console.log(session);
+  //console.log(session);
+
+  const addTask = () => {
+    console.log(task);
+  };
+
   return (
     <div>
       <Navbar />
@@ -27,6 +34,29 @@ const Dashboard = () => {
         >
           Logout
         </button>
+      </div>
+      <div className="mb-4 w-[80%] mx-auto">
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="input_field" className="text-purple font-medium">
+            📝 Add Task
+          </label>
+          <input
+            id="input_field"
+            type="text"
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            className="p-2 w-96 rounded-md text-blue bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+          />
+        </div>
+        <div className="w-96 mt-5">
+          <p className="text-purple font-medium mb-2">📅 Pick Date</p>
+         <DatePickerComp/>
+        </div>
+        <Button
+          name="Add task"
+          onClick={addTask}
+          className="mt-5 py-[0.4rem] px-3"
+        />
       </div>
     </div>
   );
