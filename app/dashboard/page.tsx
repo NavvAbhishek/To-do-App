@@ -13,7 +13,8 @@ interface TaskDetails {
 
 const Dashboard = () => {
   const { data: session }: any = useSession();
-  //console.log(session);
+  //console.log("Dashboard",session.user.id); 
+
 
   const handleTaskSubmit = (taskDetails: TaskDetails) => {
     console.log(taskDetails);

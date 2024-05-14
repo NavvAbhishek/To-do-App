@@ -1,5 +1,7 @@
+"use client"
 import React, { useState } from "react";
 import { Button, FormInput, FormSelect } from "../index";
+import axios from "axios";
 
 interface TaskDetails {
   name: string;
@@ -25,9 +27,25 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
       setTaskDetails((prev) => ({ ...prev, [id]: value }));
     };
   
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit(taskDetails);
+      try {
+        console.log("Sending task data:", taskDetails);
+        const response = await axios.post("/api/create-task", taskDetails);
+        console.log("Task Data addedd successfully", response.data);
+        // Reset the form here
+        setTaskDetails({
+          name: '',
+          date: '',
+          priority: '',
+          category: ''
+        });
+      } catch (error: any) {
+        console.log(
+          "const response = await axios.post(/api/create-class, classData);"
+        );
+        console.log("Class Data addedd failed", error.message);
+      }
     };
   
     return (
