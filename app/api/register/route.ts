@@ -8,26 +8,32 @@ connect()
 export async function POST(req: NextRequest) {
     try {
         const { name, email, password } = await req.json();
-        const userExist = await User.findOne({ email });
-        if (userExist) {
-            return NextResponse.json({
-                message: 'User already exists'
-            }, { status: 400 })
+        //! check if the user already exists
+        const user = await User.findOne({ email })
+        if (user) {
+            return NextResponse.json({ error: "User already exists" },
+                { status: 400 })
         }
-
-        const salt = await bcryptjs.genSalt(10);
+        //! hash password
+        const salt = await bcryptjs.genSalt(10)
         const hashedPassword = await bcryptjs.hash(password, salt)
 
-        const newUser =  new User({
-           name, email, password: hashedPassword
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword,
         })
         const savedUser = await newUser.save()
+        console.log(savedUser)
+
         return NextResponse.json({
-            message: "User successfully registerd",
+            message: "User created successfully",
             success: true,
             savedUser
         })
-    } catch (error) {
-        return NextResponse.json({ message: 'An error occured while registering the user' }, { status: 500 })
+
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message },
+            { status: 500 })
     }
 }
