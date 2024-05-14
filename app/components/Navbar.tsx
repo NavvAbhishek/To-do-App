@@ -23,7 +23,7 @@ const Navbar = () => {
     <div className="bg-blue dark:bg-black"> 
       <div className="flex items-center justify-between w-[95%] md:w-[80%] mx-auto">
         <div className="flex items-center">
-          <Image src={logo} alt="logo" className="w-32" />
+          <Image src={logo} alt="logo" className="w-32" priority />
           <h1 className="text-white dark:text-pink text-2xl font-bold">Hustle Hub</h1> 
         </div>
         <div className="hidden sm:block">

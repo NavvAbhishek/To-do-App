@@ -1,6 +1,6 @@
 import { connect } from '@/utils/config/dbConfig'
 import Task from '@/models/TaskModel'
-import { useSession } from 'next-auth/react'
+import getDataFromToken from '@/helpers/getDataFromToken'
 import { NextRequest, NextResponse } from 'next/server'
 
 connect()
@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
         const reqBody = await request.json()
         console.log("Received request body:", reqBody);
 
-        const { data: session }: any = useSession();
-        const userId = session.user.id
+        //! Extract user ID from the token
+        const { userId } = getDataFromToken(request);
 
         const { name, date, priority, category } = reqBody
         console.log(reqBody)
@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
         const newTask = new Task({
             userId: userId, // Assign the extracted teacher ID
             name,
+            category,
             date,
             priority,
-            category
         })
 
         const savedTask = await newTask.save()

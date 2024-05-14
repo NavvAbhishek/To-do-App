@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import AuthProvider from "./components/Provider";
 import { ThemeProviders } from "./providers";
 
 const poppins = Poppins({
@@ -23,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={poppins.className}>
         <ThemeProviders>
-          <AuthProvider>{children}</AuthProvider>
+          {children}
         </ThemeProviders>
       </body>
     </html>

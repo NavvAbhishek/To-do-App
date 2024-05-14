@@ -17,7 +17,7 @@ const Hero = () => {
         <Button href="/login" name="Get Started" />
       </div>
       <div className="shrink-0">
-        <Image src={heroImg} alt="heroImg" className="w-[25rem] sm:w-[20rem] md:w-[25rem] lg:w-[37rem] pb-10 sm:pb-0" />
+        <Image src={heroImg} alt="heroImg" priority className="w-[25rem] sm:w-[20rem] md:w-[25rem] lg:w-[37rem] pb-10 sm:pb-0" />
       </div>
     </div>
   );
