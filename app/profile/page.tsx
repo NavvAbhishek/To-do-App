@@ -1,5 +1,4 @@
 "use client"
-import { signOut } from "next-auth/react";
 import React from "react";
 
 const Profile = () => {
@@ -11,7 +10,6 @@ const Profile = () => {
           Email: john@gmail.com
         </h2>
         <button
-          onClick={() => signOut()}
           className="w-full bg-purple text-white py-2 px-4 rounded"
         >
           Log Out
