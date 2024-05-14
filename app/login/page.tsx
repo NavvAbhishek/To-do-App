@@ -2,16 +2,17 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import axios from "axios";
 
 const Login = () => {
+  const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -20,34 +21,26 @@ const Login = () => {
         setError("Please fill all the fields");
         return;
       }
-      const res = await signIn("credentials", {
-        email: user.email,
-        password: user.password,
-        redirect: false,
-      });
-
-      if (res?.error) {
-        console.error(error);
-        setError("Something went wrong");
-      }
-      setError("");
+      const response = await axios.post("/api/login", user);
+      console.log("Login success", response.data);
       router.push("/dashboard");
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.log("Login failed", error.message);
     } finally {
+      setUser({
+        email: "",
+        password: "",
+      });
       setLoading(false);
     }
-
-    setUser({
-      email: "",
-      password: "",
-    });
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-blue">
       <div className="login-form flex flex-col items-center bg-white p-10 rounded-lg shadow-md">
-        <h1 className="mb-10 text-3xl font-bold text-pink">🔐 Login</h1>
+        <h1 className="mb-10 text-3xl font-bold text-pink">
+          {loading ? "⏳ Processing..." : "🔐 Login"}
+        </h1>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col justify-center space-y-4"
@@ -68,9 +61,6 @@ const Login = () => {
           />
           <button className="w-80 mt-4 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">
             Login
-          </button>
-          <button onClick={() => signIn("google")} type="button" className="dark:text-yellow text-black">
-            Login with Google
           </button>
           <div>
             {error ? (
