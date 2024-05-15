@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Navbar } from "../components";
+import { Button, Navbar, ViewTask } from "../components";
 import axios from "axios";
 
 const Dashboard = () => {
@@ -43,7 +43,8 @@ const Dashboard = () => {
           Logout
         </button>
       </div>
-      <form className="mb-4 w-[80%] mx-auto" onSubmit={handleSubmit}>
+      <div className="flex justify-evenly">
+      <form className="mb-4" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-2">
           <label htmlFor="input_field" className="text-purple font-medium">
             📝 Add Task
@@ -63,7 +64,7 @@ const Dashboard = () => {
             📅 Pick Date
           </label>
           <input
-            className="w-96 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+            className="p-2 w-96 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
             type="date"
             id="date"
             value={taskDetails.date}
@@ -82,7 +83,7 @@ const Dashboard = () => {
             onChange={(e) =>
               setTaskDetails({ ...taskDetails, priority: e.target.value })
             }
-            className="w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+            className="p-2 w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
           >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -99,7 +100,7 @@ const Dashboard = () => {
             onChange={(e) =>
               setTaskDetails({ ...taskDetails, category: e.target.value })
             }
-            className="w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+            className="p-2 w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
           >
             <option value="personal">personal</option>
             <option value="work">work</option>
@@ -110,6 +111,8 @@ const Dashboard = () => {
         </div>
         <Button name="Add task" className="mt-5 py-[0.6rem] px-3" />
       </form>
+      <ViewTask/>
+      </div>
     </div>
   );
 };
