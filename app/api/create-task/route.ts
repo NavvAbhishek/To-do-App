@@ -13,6 +13,10 @@ export async function POST(request: NextRequest) {
         //! Extract user ID from the token
         const { userId } = getDataFromToken(request);
 
+        if (!userId) {
+            throw new Error('User ID not found in token');
+        }
+
         const { name, date, priority, category } = reqBody
         console.log(reqBody)
 
@@ -33,9 +37,8 @@ export async function POST(request: NextRequest) {
             savedTask
         })
     } catch (error: any) {
-        return NextResponse.json({ error: error.message },
-            { status: 500 }
-        )
+        console.error("Error creating task:", error.message);
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
 

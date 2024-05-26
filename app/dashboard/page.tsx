@@ -7,7 +7,7 @@ const Dashboard = () => {
   const [taskDetails, setTaskDetails] = useState({
     name: "",
     date: new Date().toISOString().split("T")[0],
-    priority: "Low",
+    priority: "low",
     category: "Personal",
   });
 
@@ -18,12 +18,12 @@ const Dashboard = () => {
       const response = await axios.post("/api/create-task", taskDetails);
       console.log("Task Data addedd successfully", response.data);
       // Reset the form here
-      setTaskDetails((prevState) => ({
-        ...prevState,
+      setTaskDetails({
         name: "",
-        priority: "Low",
+        date: new Date().toISOString().split("T")[0],
+        priority: "low",
         category: "Personal",
-      }));
+      });
     } catch (error: any) {
       console.log(
         "const response = await axios.post(/api/create-task, taskData)"
@@ -85,9 +85,9 @@ const Dashboard = () => {
               }
               className="p-2 w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
             >
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
             </select>
           </div>
           <div className="flex flex-col mt-5">
