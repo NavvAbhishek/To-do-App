@@ -48,29 +48,37 @@ const ViewTask = () => {
 
   return (
     <div>
-      <h1 className="text-pink text-2xl font-semibold">Tasks for Today</h1>
+      <h1 className="text-pink text-2xl font-semibold">Today Tasks</h1>
       <div>
         {todayTasks.map((task, index) => (
-          <div key={index} className="flex gap-5">
-            <h3>
-              {moment(task.date).tz("Asia/Kolkata").format("DD MMM YYYY")}
-            </h3>
-            <h3>{task.name}</h3>
-            <h3>{task.category}</h3>
-            <h3>{task.priority}</h3>
+          <div key={index} className="mt-5">
+            <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
+              <ul className="flex items-end space-x-2">
+                <li>{task.name}</li>
+                <li className="text-xs">{`(${task.category} , ${
+                  task.priority
+                } , ${moment(task.date)
+                  .tz("Asia/Kolkata")
+                  .format("DD MMM")})`}</li>
+              </ul>
+            </div>
           </div>
         ))}
       </div>
       <h2 className="text-pink text-xl font-semibold mt-4">Other Tasks</h2>
       <div>
         {otherTasks.map((task, index) => (
-          <div key={index} className="flex gap-5">
-            <h3>
-              {moment(task.date).tz("Asia/Kolkata").format("DD MMM YYYY")}
-            </h3>
-            <h3>{task.name}</h3>
-            <h3>{task.category}</h3>
-            <h3>{task.priority}</h3>
+          <div key={index} className="mt-5">
+            <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
+              <ul className="flex items-end space-x-2">
+                <li>{task.name}</li>
+                <li className="text-xs">{`(${task.category} , ${
+                  task.priority
+                } , ${moment(task.date)
+                  .tz("Asia/Kolkata")
+                  .format("DD MMM")})`}</li>
+              </ul>
+            </div>
           </div>
         ))}
       </div>
