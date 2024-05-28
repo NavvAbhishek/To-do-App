@@ -1,23 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Navbar, ViewTask } from "../components";
 import axios from "axios";
+import moment from "moment-timezone";
+
+type TaskData = {
+  name: string;
+  category: string;
+  priority: string;
+  date: string;
+};
 
 const Dashboard = () => {
   const [taskDetails, setTaskDetails] = useState({
     name: "",
-    date: new Date().toISOString().split("T")[0],
+    date: moment().tz("Asia/Kolkata").startOf("day").format("YYYY-MM-DD"),
     priority: "low",
     category: "Personal",
   });
+  const [todayTasks, setTodayTasks] = useState<TaskData[]>([]);
+  const [otherTasks, setOtherTasks] = useState<TaskData[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       console.log("Sending task data:", taskDetails);
       const response = await axios.post("/api/create-task", taskDetails);
-      console.log("Task Data addedd successfully", response.data);
-      // Reset the form here
+      const newTask: TaskData = response.data.savedTask;
+      console.log("Task Data added successfully", newTask);
+
+      const taskDate = moment(newTask.date).tz("Asia/Kolkata").startOf("day");
+      const today = moment().tz("Asia/Kolkata").startOf("day");
+
+      console.log("taskDate - ",taskDate)
+      console.log("Today - ",today)
+
+      if (taskDate.isSame(today)) {
+        setTodayTasks((prevTasks) => [...prevTasks, newTask]);
+      } else {
+        setOtherTasks((prevTasks) => [...prevTasks, newTask]);
+      }
+
       setTaskDetails({
         name: "",
         date: new Date().toISOString().split("T")[0],
@@ -25,12 +48,48 @@ const Dashboard = () => {
         category: "Personal",
       });
     } catch (error: any) {
-      console.log(
-        "const response = await axios.post(/api/create-task, taskData)"
-      );
-      console.log("Task addedd failed", error.message);
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+      } else if (error.request) {
+        console.error("Error request data:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
+      console.log("Task add failed");
     }
   };
+
+  useEffect(() => {
+    const getTaskData = async () => {
+      try {
+        const res = await axios.get("/api/get-tasks");
+        if (Array.isArray(res.data.data)) {
+          const today = moment().tz("Asia/Kolkata").startOf("day");
+          const todayTasksTemp: TaskData[] = [];
+          const otherTasksTemp: TaskData[] = [];
+
+          res.data.data.forEach((task: TaskData) => {
+            const taskDate = moment(task.date)
+              .tz("Asia/Kolkata")
+              .startOf("day"); // Task's date in GMT+5:30
+            if (taskDate.isSame(today)) {
+              todayTasksTemp.push(task);
+            } else {
+              otherTasksTemp.push(task);
+            }
+          });
+
+          setTodayTasks(todayTasksTemp);
+          setOtherTasks(otherTasksTemp); 
+        } else {
+          console.error("Data is not an array", res.data);
+        }
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    };
+    getTaskData();
+  }, []);
 
   return (
     <div>
@@ -114,7 +173,7 @@ const Dashboard = () => {
           </div>
           <Button name="Add task" className="mt-5 py-[0.6rem] px-3" />
         </form>
-        <ViewTask />
+        <ViewTask todayTasks={todayTasks} otherTasks={otherTasks} />
       </div>
     </div>
   );
