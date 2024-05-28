@@ -32,9 +32,6 @@ const Dashboard = () => {
       const taskDate = moment(newTask.date).tz("Asia/Kolkata").startOf("day");
       const today = moment().tz("Asia/Kolkata").startOf("day");
 
-      console.log("taskDate - ",taskDate)
-      console.log("Today - ",today)
-
       if (taskDate.isSame(today)) {
         setTodayTasks((prevTasks) => [...prevTasks, newTask]);
       } else {
@@ -71,7 +68,7 @@ const Dashboard = () => {
           res.data.data.forEach((task: TaskData) => {
             const taskDate = moment(task.date)
               .tz("Asia/Kolkata")
-              .startOf("day"); // Task's date in GMT+5:30
+              .startOf("day");
             if (taskDate.isSame(today)) {
               todayTasksTemp.push(task);
             } else {
@@ -80,7 +77,7 @@ const Dashboard = () => {
           });
 
           setTodayTasks(todayTasksTemp);
-          setOtherTasks(otherTasksTemp); 
+          setOtherTasks(otherTasksTemp);
         } else {
           console.error("Data is not an array", res.data);
         }
