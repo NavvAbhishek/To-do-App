@@ -5,6 +5,7 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 type TaskData = {
+  _id: string;
   name: string;
   category: string;
   priority: string;
@@ -170,7 +171,12 @@ const Dashboard = () => {
           </div>
           <Button name="Add task" className="mt-5 py-[0.6rem] px-3" />
         </form>
-        <ViewTask todayTasks={todayTasks} otherTasks={otherTasks} />
+        <ViewTask
+          todayTasks={todayTasks}
+          otherTasks={otherTasks}
+          setTodayTasks={setTodayTasks}
+          setOtherTasks={setOtherTasks}
+        />
       </div>
     </div>
   );

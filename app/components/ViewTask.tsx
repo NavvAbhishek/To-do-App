@@ -3,8 +3,11 @@ import moment from "moment-timezone";
 import { MdDelete } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
 import { Tooltip } from "react-tooltip";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 type TaskData = {
+  _id: string;
   name: string;
   category: string;
   priority: string;
@@ -14,20 +17,50 @@ type TaskData = {
 type ViewTaskProps = {
   todayTasks: TaskData[];
   otherTasks: TaskData[];
+  setTodayTasks: React.Dispatch<React.SetStateAction<TaskData[]>>;
+  setOtherTasks: React.Dispatch<React.SetStateAction<TaskData[]>>;
 };
 
-const ViewTask: React.FC<ViewTaskProps> = ({ todayTasks, otherTasks }) => {
+const ViewTask: React.FC<ViewTaskProps> = ({
+  todayTasks,
+  otherTasks,
+  setTodayTasks,
+  setOtherTasks,
+}) => {
+  const handleDeleteTask = async (taskId: string) => {
+    try {
+      const res = await axios.delete(`/api/delete-task?id=${taskId}`);
+      console.log(res.data.message);
+      toast.success("Class deleted successfully");
+
+      const updatedTodayTaskData = todayTasks.filter(
+        (task) => task._id !== taskId
+      );
+      const updatedOtherTaskData = otherTasks.filter(
+        (task) => task._id !== taskId
+      );
+      setTodayTasks(updatedTodayTaskData);
+      setOtherTasks(updatedOtherTaskData);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete task");
+    }
+  };
+
   return (
-    <div>
-      <h1 className="text-pink text-2xl font-semibold">Today Tasks</h1>
+    <div className="flex justify-center items-start gap-10">
       <div>
+        <h1 className="text-pink text-2xl font-semibold">Today Tasks</h1>
         {todayTasks.map((task, index) => (
           <div key={index} className="mt-5">
             <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
               <ul className="flex items-end space-x-2">
                 <li>{task.name}</li>
                 <li>
-                  <MdDelete className="w-5 h-5" />
+                  <MdDelete
+                    onClick={() => handleDeleteTask(task._id)}
+                    className="w-5 h-5"
+                  />
                 </li>
                 <a
                   data-tooltip-id={`tooltip-${index}`}
@@ -53,15 +86,18 @@ const ViewTask: React.FC<ViewTaskProps> = ({ todayTasks, otherTasks }) => {
           </div>
         ))}
       </div>
-      <h2 className="text-pink text-xl font-semibold mt-4">Other Tasks</h2>
       <div>
+        <h2 className="text-pink text-2xl font-semibold">Other Tasks</h2>
         {otherTasks.map((task, index) => (
           <div key={index} className="mt-5">
             <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
               <ul className="flex items-end space-x-2">
                 <li>{task.name}</li>
                 <li>
-                  <MdDelete className="w-5 h-5" />
+                  <MdDelete
+                    onClick={() => handleDeleteTask(task._id)}
+                    className="w-5 h-5"
+                  />
                 </li>
                 <a
                   data-tooltip-id={`tooltip-${index}`}
