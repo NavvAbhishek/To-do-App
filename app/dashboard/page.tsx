@@ -21,7 +21,7 @@ const Dashboard = () => {
   });
   const [todayTasks, setTodayTasks] = useState<TaskData[]>([]);
   const [otherTasks, setOtherTasks] = useState<TaskData[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,6 +39,17 @@ const Dashboard = () => {
       } else {
         setOtherTasks((prevTasks) => [...prevTasks, newTask]);
       }
+
+      // set data to localstorge
+      const updatedTodayTasks = taskDate.isSame(today)
+        ? [...todayTasks, newTask]
+        : todayTasks;
+      const updatedOtherTasks = !taskDate.isSame(today)
+        ? [...otherTasks, newTask]
+        : otherTasks;
+
+      localStorage.setItem("todayTasks", JSON.stringify(updatedTodayTasks));
+      localStorage.setItem("otherTasks", JSON.stringify(updatedOtherTasks));
 
       setTaskDetails({
         name: "",
@@ -61,28 +72,39 @@ const Dashboard = () => {
   useEffect(() => {
     const getTaskData = async () => {
       try {
-        setLoading(true);
-        const res = await axios.get("/api/get-tasks");
-        if (Array.isArray(res.data.data)) {
-          const today = moment().tz("Asia/Kolkata").startOf("day");
-          const todayTasksTemp: TaskData[] = [];
-          const otherTasksTemp: TaskData[] = [];
-
-          res.data.data.forEach((task: TaskData) => {
-            const taskDate = moment(task.date)
-              .tz("Asia/Kolkata")
-              .startOf("day");
-            if (taskDate.isSame(today)) {
-              todayTasksTemp.push(task);
-            } else {
-              otherTasksTemp.push(task);
-            }
-          });
-
-          setTodayTasks(todayTasksTemp);
-          setOtherTasks(otherTasksTemp);
+        const cachedTodayTasks = localStorage.getItem("todayTasks");
+        const cachedOtherTasks = localStorage.getItem("otherTasks");
+        if (cachedTodayTasks && cachedOtherTasks) {
+          setTodayTasks(JSON.parse(cachedTodayTasks));
+          setOtherTasks(JSON.parse(cachedOtherTasks));
+          setLoading(false);
         } else {
-          console.error("Data is not an array", res.data);
+          const res = await axios.get("/api/get-tasks");
+          if (Array.isArray(res.data.data)) {
+            const today = moment().tz("Asia/Kolkata").startOf("day");
+            const todayTasksTemp: TaskData[] = [];
+            const otherTasksTemp: TaskData[] = [];
+
+            res.data.data.forEach((task: TaskData) => {
+              const taskDate = moment(task.date)
+                .tz("Asia/Kolkata")
+                .startOf("day");
+              if (taskDate.isSame(today)) {
+                todayTasksTemp.push(task);
+              } else {
+                otherTasksTemp.push(task);
+              }
+            });
+
+            setTodayTasks(todayTasksTemp);
+            setOtherTasks(otherTasksTemp);
+
+            // Save data to local storage
+            localStorage.setItem("todayTasks", JSON.stringify(todayTasksTemp));
+            localStorage.setItem("otherTasks", JSON.stringify(otherTasksTemp));
+          } else {
+            console.error("Data is not an array", res.data);
+          }
         }
       } catch (error: any) {
         console.error(error.message);
