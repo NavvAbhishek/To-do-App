@@ -47,11 +47,27 @@ const ViewTask: React.FC<ViewTaskProps> = ({
     }
   };
 
+  // Sort tasks by priority
+
+  const priorityOrder: { [key: string]: number } = {
+    high: 1,
+    medium: 2,
+    low: 3,
+  };
+
+  const sortedTodayTasks = [...todayTasks].sort((a, b) => {
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+
+  const sortedOtherTasks = [...otherTasks].sort((a, b) => {
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+
   return (
     <div className="flex justify-center items-start gap-10">
       <div>
         <h1 className="text-pink text-2xl font-semibold">Today Tasks</h1>
-        {todayTasks.map((task, index) => (
+        {sortedTodayTasks.map((task, index) => (
           <div key={index} className="mt-5">
             <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
               <ul className="flex items-end space-x-2">
@@ -88,7 +104,7 @@ const ViewTask: React.FC<ViewTaskProps> = ({
       </div>
       <div>
         <h2 className="text-pink text-2xl font-semibold">Other Tasks</h2>
-        {otherTasks.map((task, index) => (
+        {sortedOtherTasks.map((task, index) => (
           <div key={index} className="mt-5">
             <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
               <ul className="flex items-end space-x-2">
