@@ -21,6 +21,7 @@ const Dashboard = () => {
   });
   const [todayTasks, setTodayTasks] = useState<TaskData[]>([]);
   const [otherTasks, setOtherTasks] = useState<TaskData[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,6 +61,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getTaskData = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/get-tasks");
         if (Array.isArray(res.data.data)) {
           const today = moment().tz("Asia/Kolkata").startOf("day");
@@ -84,6 +86,8 @@ const Dashboard = () => {
         }
       } catch (error: any) {
         console.error(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     getTaskData();
@@ -171,12 +175,18 @@ const Dashboard = () => {
           </div>
           <Button name="Add task" className="mt-5 py-[0.6rem] px-3" />
         </form>
-        <ViewTask
-          todayTasks={todayTasks}
-          otherTasks={otherTasks}
-          setTodayTasks={setTodayTasks}
-          setOtherTasks={setOtherTasks}
-        />
+        {loading ? (
+          <div className="text-pink text-2xl font-semibold">
+            Tasks Loading...
+          </div>
+        ) : (
+          <ViewTask
+            todayTasks={todayTasks}
+            otherTasks={otherTasks}
+            setTodayTasks={setTodayTasks}
+            setOtherTasks={setOtherTasks}
+          />
+        )}
       </div>
     </div>
   );
