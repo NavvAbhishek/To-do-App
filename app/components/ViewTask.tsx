@@ -1,10 +1,12 @@
 "use client";
 import moment from "moment-timezone";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import PopupBox from "./PopupBox";
 
 type TaskData = {
   _id: string;
@@ -27,6 +29,8 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   setTodayTasks,
   setOtherTasks,
 }) => {
+  const [isPopupOpen, setisPopupOpen] = useState(false);
+  console.log(isPopupOpen);
   const handleDeleteTask = async (taskId: string) => {
     try {
       const res = await axios.delete(`/api/delete-task?id=${taskId}`);
@@ -82,6 +86,9 @@ const ViewTask: React.FC<ViewTaskProps> = ({
                     className="w-5 h-5"
                   />
                 </li>
+                <button onClick={() => setisPopupOpen((prevVal) => !prevVal)}>
+                  <MdModeEdit className="w-5 h-5" />
+                </button>
                 <a
                   data-tooltip-id={`tooltip-${index}`}
                   data-tooltip-html={`(${task.category}, ${
@@ -119,6 +126,9 @@ const ViewTask: React.FC<ViewTaskProps> = ({
                     className="w-5 h-5"
                   />
                 </li>
+                <button onClick={() => setisPopupOpen((prevVal) => !prevVal)}>
+                  <MdModeEdit className="w-5 h-5" />
+                </button>
                 <a
                   data-tooltip-id={`tooltip-${index}`}
                   data-tooltip-html={`(${task.category}, ${
@@ -143,6 +153,7 @@ const ViewTask: React.FC<ViewTaskProps> = ({
           </div>
         ))}
       </div>
+      {isPopupOpen && <PopupBox />}
     </div>
   );
 };
