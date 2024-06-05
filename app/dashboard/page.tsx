@@ -34,11 +34,11 @@ const Dashboard = () => {
       const taskDate = moment(newTask.date).tz("Asia/Kolkata").startOf("day");
       const today = moment().tz("Asia/Kolkata").startOf("day");
 
-      if (taskDate.isSame(today)) {
-        setTodayTasks((prevTasks) => [...prevTasks, newTask]);
-      } else {
-        setOtherTasks((prevTasks) => [...prevTasks, newTask]);
-      }
+      // if (taskDate.isSame(today)) {
+      //   setTodayTasks((prevTasks) => [...prevTasks, newTask]);
+      // } else {
+      //   setOtherTasks((prevTasks) => [...prevTasks, newTask]);
+      // }
 
       // set data to localstorge
       const updatedTodayTasks = taskDate.isSame(today)
@@ -48,8 +48,13 @@ const Dashboard = () => {
         ? [...otherTasks, newTask]
         : otherTasks;
 
-      localStorage.setItem("todayTasks", JSON.stringify(updatedTodayTasks));
-      localStorage.setItem("otherTasks", JSON.stringify(updatedOtherTasks));
+      setTodayTasks(updatedTodayTasks);
+      setOtherTasks(updatedOtherTasks);
+
+      localStorage.setItem(
+        "tasks",
+        JSON.stringify([...updatedTodayTasks, ...updatedOtherTasks])
+      );
 
       setTaskDetails({
         name: "",
@@ -72,19 +77,29 @@ const Dashboard = () => {
   useEffect(() => {
     const getTaskData = async () => {
       try {
-        const cachedTodayTasks = localStorage.getItem("todayTasks");
-        const cachedOtherTasks = localStorage.getItem("otherTasks");
-        if (cachedTodayTasks && cachedOtherTasks) {
-          setTodayTasks(JSON.parse(cachedTodayTasks));
-          setOtherTasks(JSON.parse(cachedOtherTasks));
-          setLoading(false);
+        const cachedTasks = localStorage.getItem("tasks");
+        const today = moment().tz("Asia/Kolkata").startOf("day");
+        const todayTasksTemp: TaskData[] = [];
+        const otherTasksTemp: TaskData[] = [];
+
+        if (cachedTasks) {
+          const allTasks = JSON.parse(cachedTasks);
+          allTasks.forEach((task: TaskData) => {
+            const taskDate = moment(task.date)
+              .tz("Asia/Kolkata")
+              .startOf("day");
+            if (taskDate.isSame(today)) {
+              todayTasksTemp.push(task);
+            } else {
+              otherTasksTemp.push(task);
+            }
+          });
+
+          setTodayTasks(todayTasksTemp);
+          setOtherTasks(otherTasksTemp);
         } else {
           const res = await axios.get("/api/get-tasks");
           if (Array.isArray(res.data.data)) {
-            const today = moment().tz("Asia/Kolkata").startOf("day");
-            const todayTasksTemp: TaskData[] = [];
-            const otherTasksTemp: TaskData[] = [];
-
             res.data.data.forEach((task: TaskData) => {
               const taskDate = moment(task.date)
                 .tz("Asia/Kolkata")
@@ -99,9 +114,10 @@ const Dashboard = () => {
             setTodayTasks(todayTasksTemp);
             setOtherTasks(otherTasksTemp);
 
-            // Save data to local storage
-            localStorage.setItem("todayTasks", JSON.stringify(todayTasksTemp));
-            localStorage.setItem("otherTasks", JSON.stringify(otherTasksTemp));
+            localStorage.setItem(
+              "tasks",
+              JSON.stringify([...todayTasksTemp, ...otherTasksTemp])
+            );
           } else {
             console.error("Data is not an array", res.data);
           }

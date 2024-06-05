@@ -42,9 +42,9 @@ const ViewTask: React.FC<ViewTaskProps> = ({
       setTodayTasks(updatedTodayTaskData);
       setOtherTasks(updatedOtherTaskData);
 
-      //update local storge
-      localStorage.setItem("todayTasks", JSON.stringify(updatedTodayTaskData));
-      localStorage.setItem("otherTasks", JSON.stringify(updatedOtherTaskData));
+      // Update local storage
+      const allTasks = [...updatedTodayTaskData, ...updatedOtherTaskData];
+      localStorage.setItem("tasks", JSON.stringify(allTasks));
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete task");
