@@ -1,6 +1,7 @@
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import React from "react";
+import { MdClose } from "react-icons/md";
 
 type PopupBoxProps = {
   task: {
@@ -16,7 +17,9 @@ type PopupBoxProps = {
 const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
   const [formData, setFormData] = React.useState(task);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -27,57 +30,59 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
   };
 
   return (
-    <Popup open={true} closeOnDocumentClick onClose={onClose}>
-      <div className="modal">
-        <button className="close" onClick={onClose}>
-          &times;
-        </button>
-        <div className="header">Edit Task</div>
-        <div className="content">
-          <label>
-            Name:
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Category:
-            <input
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Priority:
-            <select
-              name="priority"
-              value={formData.priority}
-              onChange={handleInputChange}
-            >
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </label>
-          <label>
-            Date:
-            <input
-              name="date"
-              type="date"
-              value={formData.date}
-              onChange={handleInputChange}
-            />
-          </label>
+      <Popup
+      open={true} closeOnDocumentClick onClose={onClose}>
+        <div className="modal custom-popup">
+          <button className="close" onClick={onClose}>
+            <MdClose />
+          </button>
+          <div className="header">Edit Task</div>
+          <div className="content">
+            <label>
+              Name:
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Category:
+              <input
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Priority:
+              <select
+                name="priority"
+                value={formData.priority}
+                onChange={handleInputChange}
+              >
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </label>
+            <label>
+              Date:
+              <input
+                name="date"
+                type="date"
+                value={formData.date}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="actions">
+            <button onClick={handleSubmit}>Save</button>
+            <button onClick={onClose}>Close</button>
+          </div>
         </div>
-        <div className="actions">
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Close</button>
-        </div>
-      </div>
-    </Popup>
+      </Popup>
+
   );
 };
 
