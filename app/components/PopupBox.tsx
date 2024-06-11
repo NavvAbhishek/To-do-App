@@ -2,6 +2,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import React from "react";
 import { MdClose } from "react-icons/md";
+import axios from "axios";
 
 type PopupBoxProps = {
   task: {
@@ -24,8 +25,14 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = () => {
-    console.log("Updated task data:", formData);
+  const handleUpdateTask = async () => {
+    try {
+      const res = await axios.put("/api/update-task", formData);
+      console.log("Updated task data:", res.data);
+      onSave(res.data);
+    } catch (error) {
+      console.error("Failed to update task", error);
+    }
     onClose();
   };
 
@@ -38,7 +45,7 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
         <div className="header">Edit Task</div>
         <div className="content">
           <label>
-          📝 Task Name:
+            📝 Task Name:
             <input
               name="name"
               value={formData.name}
@@ -46,7 +53,7 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
             />
           </label>
           <label>
-          🗂️ Category:
+            🗂️ Category:
             <select
               name="priority"
               value={formData.category}
@@ -60,7 +67,7 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
             </select>
           </label>
           <label>
-          📊 Priority:
+            📊 Priority:
             <select
               name="priority"
               value={formData.priority}
@@ -72,7 +79,7 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
             </select>
           </label>
           <label>
-          📅 Date:
+            📅 Date:
             <input
               name="date"
               type="date"
@@ -82,7 +89,7 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
           </label>
         </div>
         <div className="actions">
-          <button onClick={handleSubmit}>Save</button>
+          <button onClick={handleUpdateTask}>Save</button>
           <button onClick={onClose}>Close</button>
         </div>
       </div>
@@ -91,3 +98,6 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
 };
 
 export default PopupBox;
+function onSave(data: any) {
+  throw new Error("Function not implemented.");
+}
