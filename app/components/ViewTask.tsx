@@ -32,9 +32,28 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<TaskData | null>(null);
   console.log(isPopupOpen);
+
   const handleEditClick = (task: TaskData) => {
     setSelectedTask(task);
     setIsPopupOpen(true);
+  };
+
+  const handleSave = (updatedTask: TaskData) => {
+    const updateTaskList = (tasks: TaskData[], setTasks: React.Dispatch<React.SetStateAction<TaskData[]>>) => {
+      const index = tasks.findIndex(task => task._id === updatedTask._id);
+      if (index !== -1) {
+        const updatedTasks = [...tasks];
+        updatedTasks[index] = updatedTask;
+        setTasks(updatedTasks);
+      }
+    };
+
+    updateTaskList(todayTasks, setTodayTasks);
+    updateTaskList(otherTasks, setOtherTasks);
+
+    // Update local storage
+    const allTasks = [...todayTasks, ...otherTasks];
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
   };
 
   const handleDeleteTask = async (taskId: string) => {
@@ -160,7 +179,11 @@ const ViewTask: React.FC<ViewTaskProps> = ({
         ))}
       </div>
       {isPopupOpen && selectedTask && (
-        <PopupBox task={selectedTask} onClose={() => setIsPopupOpen(false)} />
+        <PopupBox 
+        task={selectedTask} 
+        onClose={() => setIsPopupOpen(false)}
+        onSave={handleSave}
+        />
       )}
     </div>
   );

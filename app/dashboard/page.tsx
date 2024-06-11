@@ -35,12 +35,6 @@ const Dashboard = () => {
       const taskDate = moment(newTask.date).tz("Asia/Kolkata").startOf("day");
       const today = moment().tz("Asia/Kolkata").startOf("day");
 
-      // if (taskDate.isSame(today)) {
-      //   setTodayTasks((prevTasks) => [...prevTasks, newTask]);
-      // } else {
-      //   setOtherTasks((prevTasks) => [...prevTasks, newTask]);
-      // }
-
       // set data to localstorge
       const updatedTodayTasks = taskDate.isSame(today)
         ? [...todayTasks, newTask]

@@ -13,10 +13,14 @@ type PopupBoxProps = {
     date: string;
   };
   onClose: () => void;
+  onSave: (updatedTask: any) => void; 
 };
 
-const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
-  const [formData, setFormData] = React.useState(task);
+const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose, onSave }) => {
+    const [formData, setFormData] = React.useState({
+        ...task,
+        date: task.date.split("T")[0] 
+      });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -97,7 +101,4 @@ const PopupBox: React.FC<PopupBoxProps> = ({ task, onClose }) => {
   );
 };
 
-export default PopupBox;
-function onSave(data: any) {
-  throw new Error("Function not implemented.");
-}
+export default PopupBox
