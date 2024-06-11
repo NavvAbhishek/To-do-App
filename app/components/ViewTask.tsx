@@ -29,8 +29,14 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   setTodayTasks,
   setOtherTasks,
 }) => {
-  const [isPopupOpen, setisPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<TaskData | null>(null);
   console.log(isPopupOpen);
+  const handleEditClick = (task: TaskData) => {
+    setSelectedTask(task);
+    setIsPopupOpen(true);
+  };
+
   const handleDeleteTask = async (taskId: string) => {
     try {
       const res = await axios.delete(`/api/delete-task?id=${taskId}`);
@@ -86,7 +92,7 @@ const ViewTask: React.FC<ViewTaskProps> = ({
                     className="w-5 h-5"
                   />
                 </li>
-                <button onClick={() => setisPopupOpen((prevVal) => !prevVal)}>
+                <button onClick={() => handleEditClick(task)}>
                   <MdModeEdit className="w-5 h-5" />
                 </button>
                 <a
@@ -126,7 +132,7 @@ const ViewTask: React.FC<ViewTaskProps> = ({
                     className="w-5 h-5"
                   />
                 </li>
-                <button onClick={() => setisPopupOpen((prevVal) => !prevVal)}>
+                <button onClick={() => handleEditClick(task)}>
                   <MdModeEdit className="w-5 h-5" />
                 </button>
                 <a
@@ -153,7 +159,9 @@ const ViewTask: React.FC<ViewTaskProps> = ({
           </div>
         ))}
       </div>
-      {isPopupOpen && <PopupBox />}
+      {isPopupOpen && selectedTask && (
+        <PopupBox task={selectedTask} onClose={() => setIsPopupOpen(false)} />
+      )}
     </div>
   );
 };

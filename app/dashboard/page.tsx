@@ -22,6 +22,7 @@ const Dashboard = () => {
   const [todayTasks, setTodayTasks] = useState<TaskData[]>([]);
   const [otherTasks, setOtherTasks] = useState<TaskData[]>([]);
   const [loading, setLoading] = useState(true);
+ 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
