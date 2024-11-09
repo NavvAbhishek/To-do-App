@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import logo from "@/public/logo_removebg.png";
 import Link from "next/link";
-import { Button } from "./";
+import { Button,CallToActionButton } from "./";
 import { RiMenu3Fill, RiCloseLargeFill } from "react-icons/ri";
 import useAOS from "@/utils/aosSetup";
 import ThemeSwitcher from "./ThemeSwitcher";
@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
           <div className="flex items-center justify-center gap-5">
             <div className="hidden sm:block">
-              <Button href="/login" name="Login" />
+              <CallToActionButton />
             </div>
             <div className="block sm:hidden">
               {!mobileMenu && (
