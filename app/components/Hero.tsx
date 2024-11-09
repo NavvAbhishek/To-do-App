@@ -5,7 +5,7 @@ import heroImg from "@/public/hustle_hub_hero.png";
 
 const Hero = () => {
   return (
-    <div className="dark:bg-gray-700 bg-white flex flex-col sm:flex-row justify-center items-center gap-32 pt-10 px-10 lg:px-20">
+    <div className="dark:bg-gray-700 bg-white flex flex-col sm:flex-row justify-center items-center gap-32 py-[36px] px-10 lg:px-20">
       <div className="shrink">
         <h1 className="text-4xl font-bold pb-8 text-balck dark:text-red-500">Organize, Track, Achieve</h1>
         <p className="text-sm md:text-lg mb-8 leading-7">
