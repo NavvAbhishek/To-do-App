@@ -22,10 +22,10 @@ const Navbar = () => {
     <nav>
     <div className="bg-blue dark:bg-gray-950"> 
       <div className="flex items-center justify-between w-[95%] md:w-[80%] mx-auto">
-        <div className="flex items-center">
+        <Link href="/" className="flex items-center cursor-pointer">
           <Image src={logo} alt="logo" className="w-[6rem] h-full" priority />
           <h1 className="text-white dark:text-pink text-xl font-bold">Hustle Hub</h1> 
-        </div>
+        </Link>
         <div className="hidden sm:block">
           <ul className="flex justify-center items-center gap-6">
             {navItems.map((item, index) => (
