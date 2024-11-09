@@ -20,11 +20,11 @@ const Navbar = () => {
 
   return (
     <nav>
-    <div className="bg-blue dark:bg-black"> 
+    <div className="bg-blue dark:bg-gray-950"> 
       <div className="flex items-center justify-between w-[95%] md:w-[80%] mx-auto">
         <div className="flex items-center">
-          <Image src={logo} alt="logo" className="w-32" priority />
-          <h1 className="text-white dark:text-pink text-2xl font-bold">Hustle Hub</h1> 
+          <Image src={logo} alt="logo" className="w-[6rem] h-full" priority />
+          <h1 className="text-white dark:text-pink text-xl font-bold">Hustle Hub</h1> 
         </div>
         <div className="hidden sm:block">
           <ul className="flex justify-center items-center gap-6">

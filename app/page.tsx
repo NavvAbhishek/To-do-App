@@ -1,14 +1,12 @@
 import React from "react";
-import { Navbar, Hero, Footer } from "./components";
+import { Home } from "./components";
 
-const Home = () => {
+const page = () => {
   return (
     <div>
-      <Navbar />
-      <Hero />
-      <Footer />
+      <Home/>
     </div>
   );
 };
 
-export default Home;
+export default page;

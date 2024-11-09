@@ -19,4 +19,4 @@ const Button: React.FC<btnProps> = ({ name, href, className, onClick }) => {
   );
 };
 
-export { Button };
+export default Button ;
