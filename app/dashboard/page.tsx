@@ -127,17 +127,12 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="flex justify-center items-center gap-10 bg-yellow-200 py-5">
-        <button className="w-24 px-4 py-2 bg-pink text-white rounded-lg hover:bg-purple transition-colors">
-          Logout
-        </button>
-      </div>
-      <div className="flex justify-evenly">
+      <div className="flex flex-grow justify-evenly pt-14 dark:bg-black">
         <form className="mb-4" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-2">
-            <label htmlFor="input_field" className="text-purple font-medium">
+            <label htmlFor="input_field" className="text-purple font-medium dark:text-yellow">
               📝 Add Task
             </label>
             <input
@@ -147,15 +142,15 @@ const Dashboard = () => {
               onChange={(e) =>
                 setTaskDetails({ ...taskDetails, name: e.target.value })
               }
-              className="p-2 w-96 rounded-md text-blue bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+              className="p-2 w-96 rounded-md text-blue dark:bg-white dark:text-black bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
             />
           </div>
           <div className="flex flex-col mt-5">
-            <label htmlFor="date" className="text-purple font-medium mb-2">
+            <label htmlFor="date" className="text-purple font-medium mb-2 dark:text-yellow">
               📅 Pick Date
             </label>
             <input
-              className="p-2 w-96 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+              className="p-2 w-96 rounded-md dark:bg-white dark:text-black bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
               type="date"
               id="date"
               value={taskDetails.date}
@@ -167,7 +162,7 @@ const Dashboard = () => {
           <div className="flex flex-col mt-5">
             <label
               htmlFor="priority_select"
-              className="text-purple font-medium"
+              className="text-purple font-medium dark:text-yellow"
             >
               📊 Set Priority
             </label>
@@ -177,7 +172,7 @@ const Dashboard = () => {
               onChange={(e) =>
                 setTaskDetails({ ...taskDetails, priority: e.target.value })
               }
-              className="p-2 w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+              className="p-2 w-96 mt-2 rounded-md dark:bg-white dark:text-black bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -187,7 +182,7 @@ const Dashboard = () => {
           <div className="flex flex-col mt-5">
             <label
               htmlFor="priority_select"
-              className="text-purple font-medium"
+              className="text-purple font-medium dark:text-yellow"
             >
               🗂️ Category
             </label>
@@ -197,7 +192,7 @@ const Dashboard = () => {
               onChange={(e) =>
                 setTaskDetails({ ...taskDetails, category: e.target.value })
               }
-              className="p-2 w-96 mt-2 rounded-md bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
+              className="p-2 w-96 mt-2 rounded-md dark:bg-white dark:text-black bg-yellow focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple"
             >
               <option value="Personal">personal</option>
               <option value="Work">work</option>
@@ -206,7 +201,7 @@ const Dashboard = () => {
               <option value="Health">health</option>
             </select>
           </div>
-          <Button name="Add task" className="mt-5 py-[0.6rem] px-3" />
+          <Button name="Add task" className="mt-5 py-[0.6rem] px-3 dark:bg-yellow" />
         </form>
         {loading ? (
           <div className="text-pink text-2xl font-semibold">

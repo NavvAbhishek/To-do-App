@@ -99,7 +99,7 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   return (
     <div className="flex justify-center items-start gap-10">
       <div>
-        <h1 className="text-pink text-2xl font-semibold">Today Tasks</h1>
+        <h1 className="text-pink dark:text-yellow text-2xl font-semibold">Today Tasks</h1>
         {sortedTodayTasks.map((task, index) => (
           <div key={index} className="mt-5">
             <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
@@ -139,10 +139,10 @@ const ViewTask: React.FC<ViewTaskProps> = ({
         ))}
       </div>
       <div>
-        <h2 className="text-pink text-2xl font-semibold">Other Tasks</h2>
+        <h2 className="text-pink dark:text-yellow text-2xl font-semibold">Old Tasks</h2>
         {sortedOtherTasks.map((task, index) => (
           <div key={index} className="mt-5">
-            <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
+            <div className="flex gap-5 cursor-pointer bg-blue dark:bg-purple text-white p-2 rounded-md">
               <ul className="flex items-end space-x-2">
                 <li>{task.name}</li>
                 <li>
