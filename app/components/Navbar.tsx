@@ -42,13 +42,13 @@ const Navbar = () => {
             <div className="block sm:hidden">
               {!mobileMenu && (
                 <RiMenu3Fill
-                  className="text-blue dark:text-pink text-3xl cursor-pointer"
+                  className="text-white dark:text-pink text-3xl cursor-pointer"
                   onClick={() => setMobileMenu(!mobileMenu)}
                 />
               )}
               {mobileMenu && (
                 <RiCloseLargeFill
-                  className="text-blue dark:text-pink text-3xl cursor-pointer"
+                  className="text-white dark:text-pink text-3xl cursor-pointer"
                   onClick={() => setMobileMenu(!mobileMenu)}
                 />
               )}

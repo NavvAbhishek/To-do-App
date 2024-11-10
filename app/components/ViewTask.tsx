@@ -110,7 +110,7 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   });
 
   return (
-    <div className="flex justify-center items-start gap-10">
+    <div className="flex justify-center items-start gap-16 py-10 md:py-0">
       <div>
         <h1 className="text-pink dark:text-yellow text-2xl font-semibold">
           Today Tasks
