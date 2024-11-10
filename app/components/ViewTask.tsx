@@ -5,7 +5,7 @@ import { IoEye } from "react-icons/io5";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopupBox from "./PopupBox";
 
 type TaskData = {
@@ -39,22 +39,35 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   };
 
   const handleSave = (updatedTask: TaskData) => {
-    const updateTaskList = (tasks: TaskData[], setTasks: React.Dispatch<React.SetStateAction<TaskData[]>>) => {
-      const index = tasks.findIndex(task => task._id === updatedTask._id);
-      if (index !== -1) {
-        const updatedTasks = [...tasks];
-        updatedTasks[index] = updatedTask;
-        setTasks(updatedTasks);
-      }
-    };
+    try {
+      const updateTaskList = (
+        tasks: TaskData[],
+        setTasks: React.Dispatch<React.SetStateAction<TaskData[]>>
+      ) => {
+        const index = tasks.findIndex((task) => task._id === updatedTask._id);
+        if (index !== -1) {
+          const updatedTasks = [...tasks];
+          updatedTasks[index] = updatedTask;
+          setTasks(updatedTasks);
+        }
+      };
 
-    updateTaskList(todayTasks, setTodayTasks);
-    updateTaskList(otherTasks, setOtherTasks);
+      updateTaskList(todayTasks, setTodayTasks);
+      updateTaskList(otherTasks, setOtherTasks);
 
-    // Update local storage
+      toast("Task updated successfully!", {
+        icon: "👏",
+      });
+      setIsPopupOpen(false);
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
     const allTasks = [...todayTasks, ...otherTasks];
     localStorage.setItem("tasks", JSON.stringify(allTasks));
-  };
+  }, [todayTasks, otherTasks]);
 
   const handleDeleteTask = async (taskId: string) => {
     try {
@@ -93,16 +106,18 @@ const ViewTask: React.FC<ViewTaskProps> = ({
   });
 
   const sortedOtherTasks = [...otherTasks].sort((a, b) => {
-    return priorityOrder[a.priority] - priorityOrder[b.priority];
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 
   return (
     <div className="flex justify-center items-start gap-10">
       <div>
-        <h1 className="text-pink dark:text-yellow text-2xl font-semibold">Today Tasks</h1>
+        <h1 className="text-pink dark:text-yellow text-2xl font-semibold">
+          Today Tasks
+        </h1>
         {sortedTodayTasks.map((task, index) => (
           <div key={index} className="mt-5">
-            <div className="flex gap-5 cursor-pointer bg-blue text-white p-2 rounded-md">
+            <div className="flex gap-5 cursor-pointer bg-blue dark:bg-purple text-white p-2 rounded-md">
               <ul className="flex items-end space-x-2">
                 <li>{task.name}</li>
                 <li>
@@ -139,7 +154,9 @@ const ViewTask: React.FC<ViewTaskProps> = ({
         ))}
       </div>
       <div>
-        <h2 className="text-pink dark:text-yellow text-2xl font-semibold">Old Tasks</h2>
+        <h2 className="text-pink dark:text-yellow text-2xl font-semibold">
+          Old Tasks
+        </h2>
         {sortedOtherTasks.map((task, index) => (
           <div key={index} className="mt-5">
             <div className="flex gap-5 cursor-pointer bg-blue dark:bg-purple text-white p-2 rounded-md">
@@ -179,10 +196,10 @@ const ViewTask: React.FC<ViewTaskProps> = ({
         ))}
       </div>
       {isPopupOpen && selectedTask && (
-        <PopupBox 
-        task={selectedTask} 
-        onClose={() => setIsPopupOpen(false)}
-        onSave={handleSave}
+        <PopupBox
+          task={selectedTask}
+          onClose={() => setIsPopupOpen(false)}
+          onSave={handleSave}
         />
       )}
     </div>

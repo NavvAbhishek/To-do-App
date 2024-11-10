@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Navbar, ViewTask } from "../components";
 import axios from "axios";
 import moment from "moment-timezone";
+import toast from "react-hot-toast";
 
 type TaskData = {
   _id: string;
@@ -56,6 +57,10 @@ const Dashboard = () => {
         date: new Date().toISOString().split("T")[0],
         priority: "low",
         category: "Personal",
+      });
+      
+      toast("Task Successfully created!", {
+        icon: "👏",
       });
     } catch (error: any) {
       if (error.response) {
