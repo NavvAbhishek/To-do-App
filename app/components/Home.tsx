@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="dark:bg-black bg-white flex flex-grow flex-col sm:flex-row justify-center items-center gap-32 py-[36px] px-10 lg:px-20">
+      <div className="dark:bg-black bg-white flex flex-grow flex-col sm:flex-row justify-center items-center gap-14 sm:gap-32 py-[36px] px-10 lg:px-20">
         <div className="shrink">
           <h1 className="text-4xl font-bold pb-8 text-balck dark:text-pink">
             Organize, Track, Achieve
@@ -25,7 +25,7 @@ const Home = () => {
             src={heroImg}
             alt="heroImg"
             priority
-            className="w-[25rem] sm:w-[20rem] md:w-[25rem] lg:w-[37rem] pb-10 sm:pb-0"
+            className="w-[25rem] sm:w-[20rem] md:w-[25rem] lg:w-[37rem] pb-10 sm:pb-0 rounded-lg"
           />
         </div>
       </div>

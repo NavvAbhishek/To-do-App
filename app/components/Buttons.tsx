@@ -48,7 +48,7 @@ const CallToActionButton: React.FC<callToActionBtnProps> = ({
 
   if (userData?._id && pathname === "/") {
     return (
-      <button onClick={onClick} className={buttonClass}>
+      <button className={buttonClass}>
         <Link href="/dashboard">Dashboard</Link>
       </button>
     );
@@ -56,7 +56,7 @@ const CallToActionButton: React.FC<callToActionBtnProps> = ({
 
   if (!userData?._id && pathname === "/") {
     return (
-      <button onClick={onClick} className={buttonClass}>
+      <button className={buttonClass}>
         <Link href="/login">Login</Link>
       </button>
     );
@@ -65,7 +65,7 @@ const CallToActionButton: React.FC<callToActionBtnProps> = ({
   if (userData?._id && pathname === "/dashboard") {
     return (
       <button onClick={onClick} className={buttonClass}>
-        <Link href="/">Logout</Link>
+        Logout
       </button>
     );
   }
